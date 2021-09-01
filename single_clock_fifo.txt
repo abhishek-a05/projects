@@ -1,0 +1,37 @@
+
+
+module FIFO(clk,rst,buff_in,buff_out,rd_en,wr_en,buff_empty,buff_full,fifo_counter)
+	input clk,rst,wr_en,rd_en;
+	output buff_empty,buff_full;
+	input [7:0] buff_in;
+	output reg [7:0] buff_out;
+	output reg [7:0] fifo_counter;
+	
+	reg [7:0] buff_mem [63:0]; //circular queue
+	reg [5:0] rd_ptr,wr_ptr;
+	
+	
+	always@(posedge clk or posedge rst)
+		begin
+			if(rst) 
+				begin
+					fifo_counter<= 8'b0;
+					buff_out<=0;
+					rd_prt<=0;
+					wr_ptr<=0;
+				end
+			else if(!buff_empty && rd_en)
+				begin
+					fifo_counter<=fifo_counter-1;
+					rd_ptr<=rd_ptr+1;
+					buff_out<=buff_mem[rd_ptr];
+				end
+			else if(!buff_full && wr_en) 
+				begin
+					fifo_counter<=fifo_counter+1;
+					wr_ptr<=wr_ptr+1;
+					buff_mem[wr_ptr]<=buff_in;
+				end
+			else fifo_counter<=fifo_counter;
+		end
+endmodule
