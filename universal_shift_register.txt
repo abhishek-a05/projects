@@ -1,0 +1,27 @@
+
+
+module USR(PO,PI,sel,clk,rst){
+input [4:0] PI;
+output [4:0] PO;
+
+input [1:0] sel;
+input clk,rst;
+input SI;
+
+always@(posedge clk or posedge rst)
+	begin
+		if(rst) PO<=5'b0;
+		else
+			begin
+				case(sel)
+				2'b00: PO<=PO;
+				2'b01: PO<= {SI,PI[4:1]} //right to left 
+				2'b10: PO<= {P[3:0],SI}  //left to right
+				2'b11: PO<=PI;
+				default: PO<=5'b0;
+				endcase
+			end
+		assign SO=(sel==2'b01)?PI[0]:PI[1];
+	end
+enmodule
+		
