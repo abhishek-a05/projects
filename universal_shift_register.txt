@@ -13,16 +13,16 @@ always@(posedge clk or posedge rst)
 		if(rst) PO<=5'b0;
 		else begin
 			case(sel)
-				2'b00: PO<=PO;
+				2'b00: PO<=PO;                 
 				2'b01: begin
 				       SO<=PO[4];
-				       PO<= {PO[3:0],SI};
+				       PO<= {PO[3:0],SI};        // right to left
 				end
 				2'b10: begin
 					SO<=PO[0];
-					PO<= {SI,PO[4:1]};
+					PO<= {SI,PO[4:1]};        // left to right
 				end
-				2'b11: PO<=PI;
+				2'b11: PO<=PI;   // load operation
 				default: PO<=5'b0;
 			endcase
 		end
