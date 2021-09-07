@@ -1,7 +1,7 @@
 
 
 module ALU(x,y,a,b,opcode)
-	intput [3:0]a,b,opcode;
+	input [3:0]a,b,opcode;
 	output reg [3:0] x,y;
 	
 	always@(a,b,opcode)
